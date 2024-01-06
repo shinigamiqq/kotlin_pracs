@@ -1,0 +1,57 @@
+import java.time.LocalDate
+
+enum class Gender {
+    Male, Female
+}
+
+class FormValidator {
+    fun validateName(name: String) {
+        if (name.length !in 2..20 || !name[0].isUpperCase()) {
+            throw InvalidException("Неверный формат имени. Он должен содержать от 2 до 20 символов и начинаться с заглавной буквы.")
+        }
+    }
+
+    fun validateDateOfBirth(dateOfBirth: LocalDate) {
+        val currentDate = LocalDate.now()
+        val minDateOfBirth = LocalDate.of(1900, 1, 1)
+
+        if (dateOfBirth.isBefore(minDateOfBirth) || dateOfBirth.isAfter(currentDate)) {
+            throw InvalidException("Неверная дата рождения. Оно должно быть между 01.01.1900 и текущей датой.")
+        }
+    }
+
+    fun validateGender(gender: Gender) {
+        if (gender !in Gender.values()) {
+            throw InvalidException("Неверный пол. Должен быть либо Мужчина, либо Женщина.")
+        }
+    }
+
+    fun validateWeight(weight: String) {
+        try {
+            val parsedWeight = weight.toDouble()
+            if (parsedWeight <= 0) {
+                throw InvalidException("Неверный вес. Это должно быть положительное число.")
+            }
+        } catch (e: NumberFormatException) {
+            throw InvalidException("Неверный формат веса.")
+        }
+    }
+}
+
+
+class InvalidException(message: String) : Throwable(message)
+
+fun main() {
+    val formValidator = FormValidator()
+
+    try {
+        formValidator.validateName("John Doe")
+        formValidator.validateDateOfBirth(LocalDate.of(1990, 5, 15))
+        formValidator.validateGender(Gender.Male)
+        formValidator.validateWeight("75.5")
+        // Если все проверки успешны, отправляем анкету на сервер
+        println("Форма действительна. Отправка на сервер.")
+    } catch (e: Throwable) {
+        println("Проверка формы не удалась: ${e.message}")
+    }
+}

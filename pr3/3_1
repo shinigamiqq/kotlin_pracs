@@ -1,0 +1,26 @@
+fun main() {
+    game()
+}
+
+fun game() {
+    val rndm = (1..1000).random();
+    println("$rndm")
+    var check = true
+
+    while(check == true) {
+        val n = readLine()!!.toInt()
+        if (n == rndm) {
+            println("Победа!")
+            check = false
+        }
+        if (n > rndm) {
+            println("это число больше")
+        }
+        if (n < rndm && n > 0) {
+            println("это число меньше")
+        }
+        if (n < 0) {
+            check = false
+        }
+    }
+}

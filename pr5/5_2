@@ -1,0 +1,67 @@
+class Student {
+    private var name: String = ""
+    private var surname: String = ""
+    private var grades: IntArray = IntArray(10)
+
+    // Геттер/сеттер для name
+    fun getName(): String {
+        return name
+    }
+
+    fun setName(newName: String) {
+        name = newName
+    }
+
+    // Геттер/сеттер для surname
+    fun getSurname(): String {
+        return surname
+    }
+
+    fun setSurname(newSurname: String) {
+        surname = newSurname
+    }
+
+    // Геттер/сеттер для grades
+    fun getGrades(): IntArray {
+        return grades
+    }
+
+    fun setGrades(newGrades: IntArray) {
+        grades = newGrades.copyOf(10) // Ограничиваем массив размером 10
+    }
+
+    // Метод, добавляющий новую оценку в grades
+    fun addGrade(newGrade: Int) {
+        for (i in 0 until grades.size - 1) {
+            grades[i] = grades[i + 1]
+        }
+        grades[grades.size - 1] = newGrade
+    }
+
+    // Метод, возвращающий средний балл студента
+    fun calculateAverageGrade(): Double {
+        var sum = 0
+        for (grade in grades) {
+            sum += grade
+        }
+        return sum.toDouble() / grades.size
+    }
+}
+
+fun main() {
+    val student = Student()
+
+    student.setName("Иван")
+    student.setSurname("Иванов")
+    student.setGrades(intArrayOf(5, 4, 3, 5, 2, 4, 5, 3, 4, 5))
+
+    println("Имя: ${student.getName()}")
+    println("Фамилия: ${student.getSurname()}")
+    println("Оценки: ${student.getGrades().contentToString()}")
+
+    student.addGrade(3)
+    println("Оценки после добавления новой оценки: ${student.getGrades().contentToString()}")
+
+    val averageGrade = student.calculateAverageGrade()
+    println("Средний балл: $averageGrade")
+}

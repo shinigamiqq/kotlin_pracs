@@ -1,0 +1,42 @@
+// Иерархия классов транспортных средств
+open class TransportVehicle(val model: String, val maxSpeed: Int)
+
+class Car(model: String, maxSpeed: Int, val numWheels: Int) : TransportVehicle(model, maxSpeed)
+
+class Bicycle(model: String, maxSpeed: Int, val numPedals: Int) : TransportVehicle(model, maxSpeed)
+
+
+
+// Функции-расширения
+fun List<TransportVehicle>.filterByMaxSpeed(maxSpeed: Int): List<TransportVehicle> {
+    return this.filter { it.maxSpeed <= maxSpeed }
+}
+
+fun List<TransportVehicle>.printInfo() {
+    forEach {
+        when (it) {
+            is Car -> println("Car: Model - ${it.model}, Max Speed - ${it.maxSpeed}, Wheels - ${it.numWheels}")
+            is Bicycle -> println("Bicycle: Model - ${it.model}, Max Speed - ${it.maxSpeed}, Pedals - ${it.numPedals}")
+            else -> println("Unknown vehicle type")
+        }
+    }
+}
+
+
+
+
+
+fun main() {
+    // Коллекции транспортных средств
+    val vehicles = listOf(
+        Car("Toyota", 200, 4),
+        Bicycle("Salyut", 30, 2),
+        Car("Honda", 180, 4),
+        Bicycle("Trek", 25, 2),
+        Car("Tesla", 250, 4)
+    )
+
+    val filteredVehicles = vehicles.filterByMaxSpeed(200)
+
+    filteredVehicles.printInfo()
+}

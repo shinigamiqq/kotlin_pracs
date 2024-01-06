@@ -1,0 +1,11 @@
+fun <T> getUniqueElements(inputList: ArrayList<T>): List<T> {
+    return inputList.distinct()
+}
+
+fun main() {
+    val arrayList = arrayListOf(1, 2, 3, 4, 2, 3, 5)
+    val uniqueElements = getUniqueElements(arrayList)
+
+    println("Исходный массив: $arrayList")
+    println("Уникальные элементы: $uniqueElements")
+}

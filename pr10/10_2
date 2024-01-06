@@ -1,0 +1,23 @@
+data class User(val name: String, val age: Int, val friends: List<String>)
+
+fun main() {
+    // Создаем анонимный объект
+    val userList = object {
+        val users = listOf(
+            User("Alice", 25, listOf("Bob", "Charlie")),
+            User("Bob", 30, listOf("Alice", "David")),
+            User("Charlie", 22, listOf("Alice", "Bob")),
+            User("David", 35, listOf("Bob"))
+        )
+    }
+
+    // Находим самого старшего пользователя
+    val oldestUser = userList.users.maxByOrNull { it.age }
+
+    // Выводим информацию о самом старшем пользователе
+    if (oldestUser != null) {
+        println("Самый старший пользователь: ${oldestUser.name}, возраст ${oldestUser.age} лет.")
+    } else {
+        println("Список пуст.")
+    }
+}

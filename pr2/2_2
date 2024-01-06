@@ -1,0 +1,17 @@
+val n = readLine()!!.toInt()
+val array = IntArray(n)
+for (i in 0 until n) {
+    array[i] = readLine()!!.toInt()
+}
+var prev = array[0]
+var count = 1
+for (i in 1 until n) {
+    if (array[i] != prev) {
+        println("$count $prev")
+        count = 1
+        prev = array[i]
+    } else {
+        count++
+    }
+}
+println("$count $prev")

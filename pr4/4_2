@@ -1,0 +1,24 @@
+fun main() {
+    val (weeklyProteinGoal, weeklyFatGoal, weeklyCarbGoal, weeklyCalorieGoal) = readLine()!!.split(" ").map {it.toInt() }
+
+    val dailyNutrients = Array(7) {
+        val nutrients = readLine()!!.split(" ").map { it.toInt() }
+        nutrients
+    }
+
+    val result = checkNutrient(weeklyProteinGoal, weeklyFatGoal, weeklyCarbGoal, weeklyCalorieGoal, dailyNutrients)
+    println(result)
+}
+
+fun checkNutrient( weeklyProteinGoal: Int, weeklyFatGoal: Int, weeklyCarbGoal: Int, weeklyCalorieGoal: Int, dailyNutrients: Array<List<Int>> ): String {
+    val weeklyProteinIntake = dailyNutrients.sumBy { it[0] }
+    val weeklyFatIntake = dailyNutrients.sumBy { it[1] }
+    val weeklyCarbIntake = dailyNutrients.sumBy { it[2] }
+    val weeklyCalorieIntake = dailyNutrients.sumBy { it[3] }
+
+    if (weeklyProteinIntake <= weeklyProteinGoal && weeklyFatIntake <= weeklyFatGoal && weeklyCarbIntake <= weeklyCarbGoal && weeklyCalorieIntake <= weeklyCalorieGoal) {
+        return "Отлично"
+    } else {
+        return "Нужно есть поменьше"
+    }
+}

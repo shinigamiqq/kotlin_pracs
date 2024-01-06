@@ -1,0 +1,29 @@
+import kotlin.random.Random
+
+class Cat {
+    private fun sleep() {
+        println("Sleep")
+    }
+
+    private fun meow() {
+        println("Meow")
+    }
+
+    private fun eat() {
+        println("Eat")
+    }
+
+    fun status() {
+        val random = Random.nextInt(3)
+        when (random) {
+            0 -> sleep()
+            1 -> meow()
+            2 -> eat()
+        }
+    }
+}
+
+fun main() {
+    val myCat = Cat()
+    myCat.status()
+}

@@ -1,0 +1,42 @@
+class StudentService {
+    fun bestStudent(students: Array<Student>): Student {
+    var bestStudent: Student? = null
+    var highestAverage = 0.0
+    for (student in students) {
+        val average = student.grades.average()
+        if (average > highestAverage) {
+            highestAverage = average
+            bestStudent = student
+        }
+    }
+    return bestStudent!!
+}
+
+
+    fun sortBySurname(students: Array<Student>): Array<Student> {
+        return students.sortedBy { it.surname }.toTypedArray()
+    }
+}
+
+class Student(val name: String, val surname: String, val grades: IntArray)
+
+fun main() {
+    val students = arrayOf(
+        Student("Иван", "Иванов", intArrayOf(5, 4, 5)),
+        Student("Петр", "Петров", intArrayOf(4, 3, 5)),
+        Student("Анна", "Сидорова", intArrayOf(5, 5, 5))
+    )
+
+    val service = StudentService()
+
+    val bestStudent = service.bestStudent(students)
+
+    println("Лучший студент: ${bestStudent.name} ${bestStudent.surname}")
+
+
+    val sortedStudents = service.sortBySurname(students)
+    println("Студенты после сортировки по фамилии:")
+    for (student in sortedStudents) {
+        println("${student.name} ${student.surname}")
+    }
+}

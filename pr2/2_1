@@ -1,0 +1,7 @@
+val n = readLine()!!.toInt()
+var sum = 0.0
+for (i in 0 until n) {
+    val num = readLine()!!.toDouble()
+    sum += num
+}
+println(sum / n)

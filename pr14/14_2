@@ -1,0 +1,29 @@
+fun updatePrice(products: MutableMap<String, Double>, product: String, newPrice: Double) {
+    if (products.containsKey(product)) {
+        products[product] = newPrice
+	println(" ")
+        println("Цена для $product обновлена успешно")
+    } else {
+        println("Товар $product не найден")
+    }
+}
+
+fun main() {
+    val products = mutableMapOf(
+        "яблоко" to 50.0,
+        "молоко" to 80.0,
+        "хлеб" to 60.0
+    )
+
+    println("Исходные цены:")
+    for ((product, price) in products) {
+        println("$product: $price")
+    }
+
+    updatePrice(products, "молоко", 85.0)
+
+    println("\nЦены после обновления:")
+    for ((product, price) in products) {
+        println("$product: $price")
+    }
+}

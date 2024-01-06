@@ -1,0 +1,19 @@
+fun topKFrequentWords(words: Array<String>, k: Int): List<String> {
+    val wordCountMap = mutableMapOf<String, Int>()
+
+
+    for (word in words) {
+        wordCountMap[word] = wordCountMap.getOrDefault(word, 0) + 1
+    }
+
+    val sortedWords = wordCountMap.keys.sortedWith(compareByDescending<String> { wordCountMap[it] }.thenByDescending { it })
+
+    return sortedWords.take(k)
+}
+
+fun main() {
+    val words = readLine()!!.split(",").map { it.trim() }
+    val k = readLine()!!.toInt()
+    val result = topKFrequentWords(words.toTypedArray(), k)
+    println(result)
+}

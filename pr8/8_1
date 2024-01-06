@@ -1,0 +1,31 @@
+enum class DrinkType(val volume: Int) {
+    COFFEE(200),
+    TEA(250),
+    WATER(300),
+    SODA(350);
+
+    fun getName(): String {
+        return when (this) {
+            COFFEE -> "Coffee"
+            TEA -> "Tea"
+            WATER -> "Water"
+            SODA -> "Soda"
+        }
+    }
+}
+
+fun getVolume(drinkType: DrinkType): Int {
+    return drinkType.volume
+}
+
+fun main() {
+    val coffee = DrinkType.COFFEE
+    val tea = DrinkType.TEA
+    val soda = DrinkType.SODA
+    val water = DrinkType.WATER
+
+    println("Drink Type: ${coffee.getName()}, Volume: ${getVolume(coffee)} ml")
+    println("Drink Type: ${tea.getName()}, Volume: ${getVolume(tea)} ml")
+    println("Drink Type: ${soda.getName()}, Volume: ${getVolume(soda)} ml")
+    println("Drink Type: ${water.getName()}, Volume: ${getVolume(water)} ml")
+}

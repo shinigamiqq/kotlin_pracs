@@ -1,0 +1,92 @@
+data class Dish(val name: String, val price: Double)
+
+data class Customer(val id: String, val name: String, val contactInfo: String)
+
+data class Order(val orderId: String, val customer: Customer, val dishes: List<Dish>) {
+    fun calculateTotalPrice(): Double {
+        return dishes.sumByDouble { it.price }
+    }
+}
+
+class Restaurant {
+    private val menu = mutableListOf<Dish>()
+    private val orders = mutableListOf<Order>()
+    private val customers = mutableSetOf<Customer>()
+
+    fun addDishToMenu(dish: Dish) {
+        menu.add(dish)
+    }
+
+    fun createOrder(customer: Customer, selectedDishes: List<Dish>): Order {
+        val orderId = generateOrderId()
+        val order = Order(orderId, customer, selectedDishes)
+        orders.add(order)
+        customers.add(customer)
+        return order
+    }
+
+    private fun generateOrderId(): String {
+        return "ORD${System.currentTimeMillis()}"
+    }
+
+    fun displayMenu() {
+        println("Меню:")
+        menu.forEach { println("${it.name} - ${it.price}") }
+        println("  ")
+    }
+
+    fun displayOrderDetails(order: Order) {
+        println("Детали заказа:")
+        println("ID заказа: ${order.orderId}")
+        println("Клиент: ${order.customer.name}")
+        println("Выбранные блюда:")
+        order.dishes.forEach { println("${it.name} - ${it.price}") }
+        println("Чек: ${order.calculateTotalPrice()}")
+        println("   ")
+    }
+
+    fun displayCustomerInfo(customer: Customer) {
+        println("Информация о клиенте:")
+        println("ID: ${customer.id}")
+        println("Имя: ${customer.name}")
+        println("Номер телефона: ${customer.contactInfo}")
+        println("    ")
+    }
+
+    fun displayAllOrders() {
+        println("Все заказы:")
+        orders.forEach { displayOrderDetails(it) }
+        println("     ")
+
+    }
+
+    fun displayAllCustomers() {
+        println("Клиенты:")
+        customers.forEach { displayCustomerInfo(it) }
+        println("     ")
+    }
+}
+
+fun main() {
+    val restaurant = Restaurant()
+
+    // Добавление блюд в меню
+    restaurant.addDishToMenu(Dish("Паста", 10.99))
+    restaurant.addDishToMenu(Dish("Салат", 5.99))
+    restaurant.addDishToMenu(Dish("Стейк", 15.99))
+
+    // Создание клиента
+    val customer = Customer("1", "James", "8-966-123-45-67")
+
+    // Создание заказа
+    val selectedDishes = listOf(
+        Dish("Паста", 10.99),
+        Dish("Стейк", 15.99)
+    )
+    val order = restaurant.createOrder(customer, selectedDishes)
+
+    // Вывод информации
+    restaurant.displayMenu()
+    restaurant.displayAllCustomers()
+    restaurant.displayAllOrders()
+}

@@ -1,0 +1,9 @@
+val colors = mapOf(
+"ромашка" to "белая",
+"ликорис" to "красный",
+"кипарис" to "зеленый"
+)
+
+for ((color, intensity) in colors) {
+println("$color: $intensity")
+}

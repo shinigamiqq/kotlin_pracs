@@ -1,0 +1,108 @@
+data class Book(val title: String, val author: String, var borrowed: Boolean = false)
+
+data class Visitor(val name: String, var borrowedBook: Book? = null)
+
+class Library {
+    val books = mutableListOf<Book>()
+    val visitors = mutableListOf<Visitor>()
+
+    // Добавить новую книгу в библиотеку
+    fun addBook(book: Book) {
+        if (!books.any { it.title == book.title }) {
+            books.add(book)
+        }
+    }
+
+    // Удалить книгу из библиотеки по названию
+    fun removeBook(title: String) {
+        val book = books.find { it.title == title }
+        if (book != null && isBookAvailable(book)) {
+            books.remove(book)
+        }
+    }
+
+    // Найти и вернуть книгу по названию
+    fun findBookByTitle(title: String): Book? {
+        return books.find { it.title == title }
+    }
+
+    // Найти и вернуть список книг по автору
+    fun findBooksByAuthor(author: String): List<Book> {
+        return books.filter { it.author == author }
+    }
+
+    // Одолжить книгу посетителю по названию
+    fun borrowBook(visitor: Visitor, title: String): Boolean {
+        if (visitor.borrowedBook != null || !visitorExists(visitor)) {
+            return false
+        }
+
+        val book = findBookByTitle(title)
+        if (book != null && isBookAvailable(book)) {
+            visitor.borrowedBook = book
+            book.borrowed = true // Установить флаг, что книга одолжена
+            return true
+        }
+
+        return false
+    }
+
+    // Вернуть книгу в библиотеку
+    fun returnBook(visitor: Visitor) {
+        val borrowedBook = visitor.borrowedBook
+        if (borrowedBook != null) {
+            borrowedBook.borrowed = false // Сбросить флаг
+            visitor.borrowedBook = null
+        }
+    }
+
+    private fun isBookAvailable(book: Book): Boolean {
+        return !book.borrowed
+    }
+
+    private fun visitorExists(visitor: Visitor): Boolean {
+        return visitors.any { it.name == visitor.name }
+    }
+}
+
+fun main() {
+    val library = Library()
+
+    val book1 = Book("Book 1", "Author A", false)
+    val book2 = Book("Book 2", "Author B", false)
+    val book3 = Book("Book 3", "Author A", false)
+
+    library.addBook(book1)
+    library.addBook(book2)
+    library.addBook(book3)
+
+    val visitor1 = Visitor("Вася")
+    val visitor2 = Visitor("Петя")
+
+    println("Books by Author A: ${library.findBooksByAuthor("Author A")}")
+    println("Books by Author B: ${library.findBooksByAuthor("Author B")}")
+
+    library.borrowBook(visitor1, "Book 1")
+    println("${visitor1.name} borrowed book ")
+
+    library.borrowBook(visitor2, "Book 2")
+    println("${visitor2.name} borrowed book ")
+
+    // Попытается взять книгу, которую уже взяли
+    val visitor3 = Visitor("Олег")
+    library.borrowBook(visitor3, "Book 1") // fail
+
+
+    // Возврат книг
+    library.returnBook(visitor1)
+    println("${visitor1.name} returned the book")
+    library.returnBook(visitor2)
+    println("${visitor2.name} returned the book")
+
+    // Убрать книгу, которую взяли
+    library.removeBook("Book 1") // fail
+    library.removeBook("Book 2") // access
+
+    println("Books by Author B: ${library.findBooksByAuthor("Author B")}")
+    println("Books by Author A: ${library.findBooksByAuthor("Author A")}")
+}
